@@ -8,11 +8,15 @@
         :root {
             --primary: #1a365d;
             --secondary: #2c5282;
-            --accent: #e53e3e;
+            --accent: #3182ce;
+            --danger: #e53e3e;
             --light: #f7fafc;
             --gray: #4a5568;
             --success: #38a169;
             --warning: #d69e2e;
+            --line: #e2e8f0;
+            --muted: #718096;
+            --text: #2d3748;
         }
         
         * {
@@ -24,7 +28,7 @@
 
         body {
             background-color: #1a202c;
-            color: #2d3748;
+            color: var(--text);
             overflow: hidden;
         }
 
@@ -71,9 +75,9 @@
         h2 {
             font-size: 2.2rem;
             color: var(--secondary);
-            margin-bottom: 30px;
+            margin-bottom: 15px;
             text-align: center;
-            border-bottom: 4px solid var(--accent);
+            border-bottom: 4px solid var(--danger);
             padding-bottom: 10px;
             display: inline-block;
         }
@@ -98,8 +102,9 @@
             bottom: 20px;
             right: 40px;
             font-size: 0.8rem;
-            color: #718096;
+            color: var(--muted);
             font-style: italic;
+            text-align: right;
         }
 
         .slide-number {
@@ -107,7 +112,7 @@
             bottom: 20px;
             left: 40px;
             font-size: 0.8rem;
-            color: #718096;
+            color: var(--muted);
         }
 
         /* Navegación */
@@ -119,7 +124,7 @@
             display: flex;
             gap: 15px;
             z-index: 100;
-            background: rgba(255,255,255,0.8);
+            background: rgba(255,255,255,0.9);
             padding: 10px 20px;
             border-radius: 30px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.2);
@@ -140,64 +145,149 @@
             background: var(--secondary);
         }
 
-        /* Componentes Específicos */
+        /* Nuevas Clases Adaptadas */
+        .kicker {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--secondary);
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        .lead {
+            font-size: 1.1rem;
+            margin-top: -5px;
+            margin-bottom: 20px;
+            color: var(--gray);
+            max-width: 850px;
+        }
+        .card {
+            background: var(--light);
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            padding: 25px;
+            margin: 0 auto;
+            width: 100%;
+            max-width: 950px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .callout {
+            background: #ebf8ff;
+            border-left: 6px solid var(--secondary);
+            padding: 15px 20px;
+            border-radius: 4px;
+            text-align: left;
+            font-size: 1.05rem;
+            line-height: 1.5;
+            margin: 20px auto;
+            max-width: 950px;
+            color: var(--text);
+        }
+        .small {
+            font-size: 0.9rem;
+            color: var(--muted);
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        /* Gráfico de Barras Verticales */
+        .v-chart-container {
+          display: flex;
+          align-items: flex-end;
+          justify-content: space-around;
+          height: 220px;
+          margin: 20px 0;
+          border-bottom: 2px solid var(--line);
+          padding-bottom: 10px;
+        }
+        .v-group {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          width: 100%;
+        }
+        .v-bar-wrapper {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: flex-end;
+          height: 180px;
+          width: 60px;
+        }
+        .v-bar {
+          width: 100%;
+          border-radius: 6px 6px 0 0;
+          background: var(--line);
+          transition: height 0.5s ease-out;
+        }
+        .v-bar.accent { background: var(--accent); }
+        .v-bar.red { background: var(--danger); }
+        .v-val {
+          font-size: 0.95rem;
+          font-weight: 800;
+          margin-bottom: 6px;
+          color: var(--text);
+        }
+        .v-label {
+          margin-top: 15px;
+          font-size: 1rem;
+          color: var(--muted);
+          font-weight: 700;
+          text-align: center;
+        }
+
+        /* Componentes existentes */
         .chart-circle {
-            width: 300px;
-            height: 300px;
+            width: 280px;
+            height: 280px;
             border-radius: 50%;
-            background: conic-gradient(var(--accent) 0% 45.9%, var(--warning) 45.9% 71%, var(--secondary) 71% 96.1%, var(--success) 96.1% 100%);
+            background: conic-gradient(var(--danger) 0% 45.9%, var(--warning) 45.9% 71%, var(--secondary) 71% 96.1%, var(--success) 96.1% 100%);
             display: flex;
             justify-content: center;
             align-items: center;
             margin: 20px auto;
             position: relative;
         }
-
         .chart-circle::after {
             content: "45.9%";
-            font-size: 3rem;
+            font-size: 2.8rem;
             font-weight: bold;
-            color: var(--accent);
+            color: var(--danger);
             background: white;
-            width: 200px;
-            height: 200px;
+            width: 180px;
+            height: 180px;
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
         }
-
         .stat-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 30px;
+            gap: 20px;
             width: 100%;
             max-width: 1000px;
             margin-top: 20px;
         }
-
         .stat-card {
-            background: #f8fafc;
+            background: var(--light);
             border-left: 6px solid var(--secondary);
             padding: 20px;
             border-radius: 8px;
         }
-
-        .stat-card.accent { border-left-color: var(--accent); }
+        .stat-card.accent { border-left-color: var(--danger); }
         .stat-card.success { border-left-color: var(--success); }
-
         .stat-number {
-            font-size: 3rem;
+            font-size: 2.5rem;
             font-weight: bold;
             color: var(--primary);
             display: block;
         }
-
         .stat-label {
             font-size: 1.1rem;
             color: var(--gray);
         }
-
         .timeline {
             display: flex;
             justify-content: center;
@@ -206,64 +296,55 @@
             margin: 30px 0;
             position: relative;
         }
-
         .timeline-step {
             text-align: center;
-            padding: 15px;
+            padding: 12px;
             border: 2px solid var(--secondary);
             border-radius: 10px;
             background: white;
             z-index: 2;
-            min-width: 120px;
+            min-width: 110px;
             font-weight: bold;
             color: var(--secondary);
+            font-size: 0.95rem;
         }
-
         .timeline-arrow {
-            font-size: 2rem;
-            color: var(--accent);
-            margin: 0 10px;
+            font-size: 1.8rem;
+            color: var(--danger);
+            margin: 0 8px;
         }
-
         .comparison-table {
             width: 100%;
             border-collapse: collapse;
             margin: 20px 0;
             font-size: 1.1rem;
         }
-
         .comparison-table th, .comparison-table td {
             border: 1px solid #cbd5e0;
-            padding: 15px;
+            padding: 12px;
             text-align: center;
         }
-
         .comparison-table th {
             background-color: var(--primary);
             color: white;
         }
-
         .comparison-table tr:nth-child(even) {
-            background-color: #f8fafc;
+            background-color: var(--light);
         }
-
         .two-columns {
             display: flex;
             gap: 40px;
             width: 100%;
             max-width: 1200px;
         }
-
         .column {
             flex: 1;
-            background: #f8fafc;
-            padding: 25px;
+            background: var(--light);
+            padding: 20px;
             border-radius: 12px;
             border-top: 6px solid var(--primary);
         }
-
-        .column.accent { border-top-color: var(--accent); }
-
+        .column.accent { border-top-color: var(--danger); }
         .list-check li {
             text-align: left;
             margin-bottom: 10px;
@@ -276,15 +357,14 @@
             font-weight: bold;
             margin-right: 10px;
         }
-
         .highlight-box {
-            background: var(--accent);
+            background: var(--danger);
             color: white;
-            padding: 20px 40px;
+            padding: 15px 30px;
             border-radius: 8px;
             margin-top: 20px;
             text-align: center;
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             font-weight: bold;
         }
 
@@ -302,7 +382,7 @@
         <div class="highlight-box" style="margin-top: 40px; background: var(--primary);">
             "El problema no es solamente formar jóvenes. Es lograr que esa formación se convierta en experiencia, empleo e ingresos."
         </div>
-        <div class="slide-number">1 / 10</div>
+        <div class="slide-number">1 / 11</div>
     </div>
 
     <!-- Slide 2: El problema comienza después del colegio -->
@@ -310,7 +390,7 @@
         <h2>El problema comienza después del colegio</h2>
         <p>¿Qué pasó con los 426,437 jóvenes que egresaron de 5.º de secundaria en 2023?</p>
         <div class="chart-circle"></div>
-        <div class="stat-grid" style="margin-top: 40px;">
+        <div class="stat-grid" style="margin-top: 30px;">
             <div class="stat-card accent">
                 <span class="stat-number">45.9%</span>
                 <span class="stat-label">Ni estudia ni trabaja</span>
@@ -328,12 +408,64 @@
                 <span class="stat-label">Estudia y trabaja</span>
             </div>
         </div>
-        <p style="color: var(--accent); font-weight: bold; margin-top: 20px;">Casi 1 de cada 2 egresados de secundaria no está estudiando ni trabajando.</p>
+        <p style="color: var(--danger); font-weight: bold; margin-top: 20px;">Casi 1 de cada 2 egresados de secundaria no está estudiando ni trabajando.</p>
         <div class="source">Fuente: Congreso / MTPE</div>
-        <div class="slide-number">2 / 10</div>
+        <div class="slide-number">2 / 11</div>
     </div>
 
-    <!-- Slide 3: No es solo desempleo, es informalidad -->
+    <!-- Slide 3: Contexto Histórico (Nuevo Diseño) -->
+    <div class="slide">
+        <div style="width:100%; max-width: 950px; text-align:center; display:flex; flex-direction:column; align-items:center;">
+            <div class="kicker">Contexto Histórico · Evolución</div>
+            <h2>El desempleo golpea el doble a los jóvenes</h2>
+            <p class="lead">Mientras la economía general se recupera, la tasa de desocupación en jóvenes de 14 a 24 años es estructuralmente más alta y su participación en el mercado ha disminuido.</p>
+
+            <div class="card">
+              <div class="v-chart-container">
+                <div class="v-group">
+                  <div class="v-bar-wrapper">
+                    <span class="v-val">13,8%</span>
+                    <div class="v-bar red" style="height: 180px;"></div>
+                  </div>
+                  <div class="v-label">2019<br><span style="font-size:0.7rem; font-weight:normal;">(Pre-Pandemia)</span></div>
+                </div>
+                
+                <div class="v-group">
+                  <div class="v-bar-wrapper">
+                    <span class="v-val" style="color:var(--danger)">13,0%</span>
+                    <div class="v-bar red" style="height: 170px;"></div>
+                  </div>
+                  <div class="v-label">2024</div>
+                </div>
+                
+                <div class="v-group">
+                  <div class="v-bar-wrapper">
+                    <span class="v-val">11,3%</span>
+                    <div class="v-bar accent" style="height: 147px;"></div>
+                  </div>
+                  <div class="v-label">2025</div>
+                </div>
+
+                <div class="v-group">
+                  <div class="v-bar-wrapper">
+                    <span class="v-val">9,6%</span>
+                    <div class="v-bar accent" style="height: 125px;"></div>
+                  </div>
+                  <div class="v-label">2026<br><span style="font-size:0.7rem; font-weight:normal;">(I Trimestre)</span></div>
+                </div>
+              </div>
+              <p class="small">Tasa de Desempleo Juvenil Nacional (14 a 24 años)</p>
+            </div>
+
+            <div class="callout">
+              <strong>El problema de fondo:</strong> Aunque la tasa baja ligeramente, sigue siendo el doble del promedio nacional general (5,1% en 2026). Además, la participación de los jóvenes en la fuerza laboral ha caído: pasaron de representar el 17% del empleo en 2019 a solo el 13% en 2024.
+            </div>
+        </div>
+        <div class="source">Fuentes oficiales: <strong>INEI (EPEN) / Informes OIT 2024-2026</strong></div>
+        <div class="slide-number">3 / 11</div>
+    </div>
+
+    <!-- Slide 4: No es solo desempleo, es informalidad -->
     <div class="slide">
         <h2>No es solamente desempleo: es informalidad</h2>
         <p>Empleo informal en Perú (Julio 2024 - Junio 2025)</p>
@@ -357,10 +489,10 @@
         </div>
         <p style="margin-top: 30px; font-weight: bold;">No basta con crear empleo. Necesitamos: <br>Primer empleo + Experiencia + Capacitación + Empleo formal.</p>
         <div class="source">Fuente: INEI</div>
-        <div class="slide-number">3 / 10</div>
+        <div class="slide-number">4 / 11</div>
     </div>
 
-    <!-- Slide 4: Jóvenes que deberían estar estudiando -->
+    <!-- Slide 5: Jóvenes que deberían estar estudiando -->
     <div class="slide">
         <h2>¿Qué ocurre con los adolescentes (14-17 años)?</h2>
         <p>Situación de adolescentes con educación secundaria (2do trimestre 2025)</p>
@@ -386,17 +518,17 @@
             No debemos convertir al adolescente en trabajador.<br>Debemos acercarlo progresivamente al mundo productivo.
         </div>
         <div class="source">Fuente: INEI</div>
-        <div class="slide-number">4 / 10</div>
+        <div class="slide-number">5 / 11</div>
     </div>
 
-    <!-- Slide 5: El vacío peruano -->
+    <!-- Slide 6: El vacío peruano -->
     <div class="slide">
         <h2>El vacío peruano</h2>
         <div style="margin-top: 50px; text-align: center;">
             <div class="timeline">
                 <div class="timeline-step">COLEGIO<br><span style="font-weight:normal; font-size:0.9rem;">(17 años)</span></div>
                 <div class="timeline-arrow">➔</div>
-                <div class="timeline-step" style="border-color: var(--accent); color: var(--accent); font-size: 1.5rem;">¿QUÉ SIGUE?</div>
+                <div class="timeline-step" style="border-color: var(--danger); color: var(--danger); font-size: 1.5rem;">¿QUÉ SIGUE?</div>
                 <div class="timeline-arrow">➔</div>
                 <div class="timeline-step">UNIVERSIDAD / INSTITUTO / TRABAJO</div>
             </div>
@@ -404,10 +536,10 @@
                 La transición entre educación y empleo es donde se pierde una parte importante de los jóvenes.
             </p>
         </div>
-        <div class="slide-number">5 / 10</div>
+        <div class="slide-number">6 / 11</div>
     </div>
 
-    <!-- Slide 6: Comparación Internacional -->
+    <!-- Slide 7: Comparación Internacional -->
     <div class="slide">
         <h2>¿Qué hacen otros países?</h2>
         <table class="comparison-table">
@@ -453,15 +585,15 @@
             </tbody>
         </table>
         <p style="margin-top: 20px; font-size: 1.1rem;">Alemania ofrece referencia para la transición educación-empresa. China ofrece elementos para investigación aplicada, industria y escalamiento tecnológico.</p>
-        <div class="slide-number">6 / 10</div>
+        <div class="slide-number">7 / 11</div>
     </div>
 
-    <!-- Slide 7: Dos problemas, dos soluciones -->
+    <!-- Slide 8: Dos problemas, dos soluciones -->
     <div class="slide">
         <h2>Dos problemas, dos soluciones</h2>
         <div class="two-columns">
             <div class="column accent">
-                <h3 style="color: var(--accent);">PROBLEMA 1</h3>
+                <h3 style="color: var(--danger);">PROBLEMA 1</h3>
                 <p>El joven estudia, pero no tiene experiencia.</p>
                 <hr style="margin: 15px 0; border: 1px solid #ddd;">
                 <h3 style="color: var(--secondary);">MODELO DUAL</h3>
@@ -471,7 +603,7 @@
                 </div>
             </div>
             <div class="column">
-                <h3 style="color: var(--accent);">PROBLEMA 2</h3>
+                <h3 style="color: var(--danger);">PROBLEMA 2</h3>
                 <p>El país forma ingenieros y científicos, pero genera poca tecnología propia.</p>
                 <hr style="margin: 15px 0; border: 1px solid #ddd;">
                 <h3 style="color: var(--secondary);">MODELO DE INVESTIGACIÓN APLICADA</h3>
@@ -481,10 +613,10 @@
                 </div>
             </div>
         </div>
-        <div class="slide-number">7 / 10</div>
+        <div class="slide-number">8 / 11</div>
     </div>
 
-    <!-- Slide 8: La propuesta peruana -->
+    <!-- Slide 9: La propuesta peruana -->
     <div class="slide">
         <h2>Sistema Peruano de Transición Educación–Trabajo e Innovación</h2>
         <div class="two-columns" style="margin-top: 30px;">
@@ -517,10 +649,10 @@
                 </div>
             </div>
         </div>
-        <div class="slide-number">8 / 10</div>
+        <div class="slide-number">9 / 11</div>
     </div>
 
-    <!-- Slide 9: Rol del Estado -->
+    <!-- Slide 10: Rol del Estado -->
     <div class="slide">
         <h2>El Estado no debería pagar solamente por capacitar</h2>
         <div class="two-columns" style="margin-top: 30px;">
@@ -533,7 +665,7 @@
                     <div class="timeline-arrow">↓</div>
                     <div class="timeline-step" style="width:100%; border-color:var(--gray); color:var(--gray);">Certificado</div>
                     <div class="timeline-arrow">↓</div>
-                    <div class="timeline-step" style="width:100%; border-color:var(--accent); color:var(--accent);">¿Empleo?</div>
+                    <div class="timeline-step" style="width:100%; border-color:var(--danger); color:var(--danger);">¿Empleo?</div>
                 </div>
             </div>
             <div class="column accent">
@@ -549,11 +681,11 @@
                 </div>
             </div>
         </div>
-        <p style="margin-top: 20px; font-size: 1.1rem; color: var(--accent);"><strong>Subsidio condicionado a resultados:</strong> joven capacitado, horas prácticas, empleo formal, prototipo desarrollado, empresa creada.</p>
-        <div class="slide-number">9 / 10</div>
+        <p style="margin-top: 20px; font-size: 1.1rem; color: var(--danger);"><strong>Subsidio condicionado a resultados:</strong> joven capacitado, horas prácticas, empleo formal, prototipo desarrollado, empresa creada.</p>
+        <div class="slide-number">10 / 11</div>
     </div>
 
-    <!-- Slide 10: Los primeros 100 días -->
+    <!-- Slide 11: Los primeros 100 días -->
     <div class="slide">
         <h2>5 Medidas para los primeros 100 días</h2>
         <div style="text-align: left; max-width: 900px; margin: 20px auto;">
@@ -568,7 +700,7 @@
         <div class="highlight-box" style="background: var(--primary); margin-top: 30px;">
             "El joven peruano no necesita solamente capacitación.<br>¡Necesita una ruta!"
         </div>
-        <div class="slide-number">10 / 10</div>
+        <div class="slide-number">11 / 11</div>
     </div>
 
 </div>
