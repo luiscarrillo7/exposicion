@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Empleo juvenil: una ruta hacia el trabajo y la innovación</title>
+<style>
+:root{
+  --bg:#07111f; --panel:#0d1b2e; --panel2:#11243b; --text:#eef5ff;
+  --muted:#a9b8ca; --line:#29405c; --accent:#58c7a6; --accent2:#f2c14e;
+  --danger:#ff7a7a; --white:#fff;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:#050b14;color:var(--text);font-family:Inter,Segoe UI,Arial,sans-serif}
+body{overflow:hidden}
+.deck{height:100vh;position:relative}
+.slide{
+  display:none; height:100vh; width:100%; padding:clamp(28px,5vw,72px);
+  position:absolute; inset:0; overflow:auto;
+  background:
+    radial-gradient(circle at 90% 10%,rgba(88,199,166,.12),transparent 30%),
+    radial-gradient(circle at 10% 90%,rgba(242,193,78,.08),transparent 28%),
+    var(--bg);
+}
+.slide.active{display:block}
+.content{max-width:1220px;margin:0 auto;height:100%;display:flex;flex-direction:column;justify-content:center}
+.kicker{color:var(--accent);font-weight:800;letter-spacing:.12em;text-transform:uppercase;font-size:.78rem}
+h1{font-size:clamp(2.5rem,6vw,5.7rem);line-height:.96;margin:18px 0 24px;max-width:1050px}
+h2{font-size:clamp(2rem,4vw,4rem);line-height:1;margin:0 0 28px}
+h3{margin:0 0 10px;font-size:1.2rem}
+p,li{font-size:clamp(1rem,1.45vw,1.25rem);line-height:1.55;color:#d8e3ef}
+.lead{font-size:clamp(1.2rem,2vw,1.65rem);max-width:900px;color:#c7d5e5}
+.badge{display:inline-block;border:1px solid var(--line);background:rgba(255,255,255,.04);padding:8px 12px;border-radius:999px;color:var(--muted);font-size:.85rem}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.card{background:linear-gradient(145deg,rgba(17,36,59,.94),rgba(10,25,43,.94));border:1px solid var(--line);border-radius:20px;padding:24px}
+.stat{font-size:clamp(3rem,7vw,6.5rem);font-weight:900;line-height:.9;margin:8px 0 14px;color:var(--accent)}
+.stat.gold{color:var(--accent2)}
+.stat.red{color:var(--danger)}
+.small{font-size:.85rem!important;color:var(--muted)!important;line-height:1.4}
+.source{margin-top:auto;padding-top:12px;border-top:1px solid rgba(255,255,255,.1);font-size:.68rem;line-height:1.35;color:#8294a9;max-width:1180px}.source strong{color:#a9b8ca}.source a{color:#9bd9ff;text-decoration:none}.source a:hover{text-decoration:underline}
+.source a{color:#9bd9ff;text-decoration:none}
+.source a:hover{text-decoration:underline}
+.quote{font-size:clamp(1.7rem,3.3vw,3.5rem);font-weight:800;line-height:1.1;max-width:1050px}
+.arrow{font-size:1.8rem;color:var(--accent);margin:0 8px}
+.flow{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:20px}
+.node{padding:15px 18px;border:1px solid var(--line);border-radius:14px;background:var(--panel2);font-weight:700}
+.node.accent{border-color:rgba(88,199,166,.55);background:rgba(88,199,166,.1)}
+.node.gold{border-color:rgba(242,193,78,.55);background:rgba(242,193,78,.08)}
+.bar{height:22px;border-radius:99px;background:#1b2c42;overflow:hidden;margin:10px 0 20px}
+.fill{height:100%;border-radius:99px;background:var(--accent)}
+.fill.gold{background:var(--accent2)}
+.fill.red{background:var(--danger)}
+.legend{display:flex;justify-content:space-between;color:var(--muted);font-size:.9rem}
+.timeline{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:20px}
+.year{padding:20px;border-left:3px solid var(--accent);background:rgba(255,255,255,.035);border-radius:0 14px 14px 0}
+.year strong{display:block;font-size:1.7rem;margin-bottom:8px}
+.table{width:100%;border-collapse:collapse;background:rgba(255,255,255,.03);border-radius:15px;overflow:hidden}
+.table th,.table td{padding:15px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+.table th{color:var(--accent);font-size:.9rem;text-transform:uppercase}
+.callout{border-left:5px solid var(--accent2);padding:18px 22px;background:rgba(242,193,78,.07);border-radius:0 15px 15px 0;margin:18px 0}
+.controls{position:fixed;left:24px;right:24px;bottom:18px;display:flex;align-items:center;gap:12px;z-index:50}
+button{border:1px solid var(--line);background:rgba(9,22,38,.92);color:var(--text);border-radius:12px;padding:10px 15px;cursor:pointer}
+button:hover{border-color:var(--accent)}
+.progress{height:4px;background:#1a2a3d;flex:1;border-radius:9px;overflow:hidden}
+.progress i{display:block;height:100%;background:var(--accent);width:0}
+.counter{font-size:.8rem;color:var(--muted);min-width:55px;text-align:right}
+@media(max-width:800px){
+ .grid,.grid3,.timeline{grid-template-columns:1fr}
+ .slide{padding:28px 22px 75px}
+ .flow{gap:6px}.arrow{display:none}
+ .card{padding:18px}
+}
+@media print{
+ body{overflow:visible;background:#fff}
+ .deck{height:auto}
+ .slide{display:block!important;position:relative;page-break-after:always;min-height:100vh;background:#07111f}
+ .controls{display:none}
+}
+</style>
+</head>
+<body>
+<div class="deck">
+
+<section class="slide active">
+<div class="content">
+<div class="kicker">Perú · 2026 · propuesta de política pública</div>
+<h1>Del aula al empleo.<br><span style="color:var(--accent)">De la investigación a la tecnología.</span></h1>
+<p class="lead">Una propuesta para fortalecer la transición educación–trabajo y conectar la formación científica y tecnológica con empresas, producción y empleo especializado.</p>
+<div class="flow">
+<span class="node accent">Formación</span><span class="arrow">→</span>
+<span class="node">Experiencia</span><span class="arrow">→</span>
+<span class="node">Certificación</span><span class="arrow">→</span>
+<span class="node gold">Empleo</span>
+</div>
+<div class="callout"><strong>Idea central:</strong> el joven no necesita solamente capacitación. Necesita una ruta verificable hacia la experiencia, el empleo y los ingresos.</div>
+<div class="source">Base conceptual: documento adjunto «Comparar inserción laboral juvenil». fileciteturn0file0L288-L297</div>
+</div>
+</section>
+
+<section class="slide">
+<div class="content">
+<div class="kicker">01 · El problema</div>
+<h2>La transición después de secundaria tiene una brecha crítica</h2>
+<div class="grid">
+<div class="card">
+<div class="stat red">45,9%</div>
+<h3>no estudiaba ni trabajaba</h3>
+<p>Entre los 426.437 jóvenes que egresaron de 5.º de secundaria en 2023, el documento presenta esta cifra como uno de los principales indicadores de la brecha de transición.</p>
+</div>
+<div class="card">
+<div class="stat">25,1%</div>
+<h3>continuó su formación profesional</h3>
+<p>El dato ayuda a visualizar que terminar la secundaria no garantiza una transición ordenada hacia educación superior o empleo.</p>
+</div>
+</div>
+<p class="quote" style="margin-top:28px">Casi 1 de cada 2 egresados de secundaria no estaba estudiando ni trabajando.</p>
+<div class="source">Fuente: <strong>documento base / Congreso de la República</strong>, dato de egresados de secundaria 2023. Se conserva la atribución del documento base; no se ha sustituido por una cifra distinta. fileciteturn0file0L292-L297</div>
+</div>
+</section>
+
+<section class="slide">
+<div class="content">
+<div class="kicker">02 · La calidad del empleo</div>
+<h2>No es solamente desempleo. Es informalidad.</h2>
+<div class="card" style="max-width:850px">
+<div class="stat red">81,8%</div>
+<h3>de los ocupados de 14 a 24 años tenía empleo informal</h3>
+<p>Periodo julio 2024 – junio 2025, área urbana.</p>
+<div class="bar"><div class="fill red" style="width:81.8%"></div></div>
+<div class="legend"><span>Jóvenes 14–24</span><strong>81,8%</strong></div>
+</div>
+<div class="grid3" style="margin-top:18px">
+<div class="card"><h3>25–44 años</h3><div class="stat gold" style="font-size:3rem">60,7%</div></div>
+<div class="card"><h3>45+ años</h3><div class="stat gold" style="font-size:3rem">64,9%</div></div>
+<div class="card"><h3>Promedio urbano</h3><div class="stat" style="font-size:3rem">65,1%</div></div>
+</div>
+<div class="source">Fuente oficial: <strong>INEI – Encuesta Permanente de Empleo Nacional (EPEN)</strong>, julio 2024–junio 2025. 81,8% de informalidad en ocupados de 14–24 años; 60,7% en 25–44; 64,9% en 45+; 65,1% total urbano. <a href="https://m.inei.gob.pe/media/MenuRecursivo/boletines/boletin_condiciones_iit25.pdf" target="_blank">Boletín oficial INEI</a> · <a href="https://www.inei.gob.pe/estadisticas/indice-tematico/indicadores-de-empleo-epen-14676/" target="_blank">Indicadores EPEN</a>.</div>
+</div>
+</section>
+
+<section class="slide">
+<div class="content">
+<div class="kicker">03 · Una precisión necesaria</div>
+<h2>No debemos convertir al adolescente en trabajador.</h2>
+<div class="grid">
+<div class="card">
+<h3>14–17 años con secundaria · II trimestre 2025</h3>
+<div class="bar"><div class="fill" style="width:71.7%"></div></div><div class="legend"><span>Solo estudiaba</span><strong>71,7%</strong></div>
+<div class="bar"><div class="fill gold" style="width:13.4%"></div></div><div class="legend"><span>Estudiaba y ayudaba en una actividad</span><strong>13,4%</strong></div>
+</div>
+<div class="card">
+<div class="stat red" style="font-size:4rem">10,3%</div>
+<h3>ni estudiaba ni trabajaba</h3>
+<p>El enfoque debe ser una aproximación progresiva al mundo productivo, compatible con la permanencia educativa.</p>
+<div class="callout">La política debe proteger la educación y construir puentes hacia la vida productiva.</div>
+</div>
+</div>
+<div class="source">Fuente: <strong>documento base, atribuido a INEI</strong>. Para cifras laborales oficiales de jóvenes, consultar los indicadores EPEN del INEI. <a href="https://www.inei.gob.pe/estadisticas/indice-tematico/indicadores-de-empleo-epen-14676/" target="_blank">INEI – EPEN</a>. fileciteturn0file0L342-L351</div>
+</div>
+</section>
+
+<section class="slide">
+<div class="content">
+<div class="kicker">04 · El vacío</div>
+<h2>¿Qué sigue después del colegio?</h2>
+<div class="flow" style="margin:35px 0">
+<span class="node">COLEGIO</span><span class="arrow">→</span>
+<span class="node">Orientación</span><span class="arrow">→</span>
+<span class="node">Formación técnica / superior</span><span class="arrow">→</span>
+<span class="node gold">EMPRESA</span><span class="arrow">→</span>
+<span class="node accent">EMPLEO FORMAL</span>
+</div>
+<div class="card" style="margin-top:20px">
+<p class="quote">El problema no es solamente formar jóvenes. Es lograr que esa formación se convierta en experiencia, empleo e ingresos.</p>
+</div>
+<div class="source">Propuesta conceptual desarrollada a partir del documento adjunto. fileciteturn0file0L308-L320</div>
+</div>
+</section>
+
+<section class="slide">
+<div class="content">
+<div class="kicker">05 · Referencias internacionales</div>
+<h2>Dos modelos que responden a problemas diferentes</h2>
+<div class="grid">
+<div class="card">
+<span class="badge">ALEMANIA</span>
+<h3 style="margin-top:18px">Formación dual</h3>
+<p><strong>Empresa + escuela profesional + aprendizaje + certificación.</strong></p>
+<p>En el sistema dual, la formación ocurre en dos lugares de aprendizaje: la empresa y la escuela profesional. Los aprendices son empleados durante su formación.</p>
+</div>
+<div class="card">
+<span class="badge">CHINA</span>
+<h3 style="margin-top:18px">Política tecnológica</h3>
+<p><strong>Investigación + desarrollo + comercialización + escalamiento.</strong></p>
+<p>La referencia no debe presentarse como “China es mejor”, sino como un conjunto de elementos útiles para política industrial, investigación tecnológica y transferencia.</p>
+</div>
+</div>
+<div class="callout"><strong>Tesis:</strong> Alemania ofrece una referencia especialmente útil para la transición educación–empresa; China aporta elementos relevantes para investigación aplicada, industria y escalamiento tecnológico.</div>
+<div class="source">Fuentes oficiales/institucionales: <strong>BIBB</strong> para el sistema dual alemán y <strong>OECD</strong> para la revisión de política de innovación de China. <a href="https://www.bibb.de/dokumente/pdf/2018_CR_DE.pdf" target="_blank">BIBB – Vocational Education</a> · <a href="https://www.oecd.org/content/dam/oecd/en/publications/reports/2008/08/oecd-reviews-of-innovation-policy-china-2008_g1gh9531/9789264039827-en.pdf" target="_blank">OECD – China 2008</a>.</div>
+</div>
+</section>
+
+<section class="slide">
+<div class="content">
+<div class="kicker">06 · Alemania</div>
+<h2>El sistema dual conecta aprendizaje y empresa</h2>
+<div class="flow">
+<span class="node accent">Escuela profesional</span><span class="arrow">+</span>
+<span class="node gold">Empresa</span><span class="arrow">→</span>
+<span class="node">Aprendizaje práctico</span><span class="arrow">→</span>
+<span class="node">Certificación</span><span class="arrow">→</span>
+<span class="node accent">Empleabilidad</span>
+</div>
+<div class="grid" style="margin-top:28px">
+<div class="card"><div class="stat" style="font-size:3.8rem">2</div><h3>lugares de aprendizaje</h3><p>Empresa y escuela profesional.</p></div>
+<div class="card"><div class="stat gold" style="font-size:3.8rem">300+</div><h3>ocupaciones reconocidas</h3><p>El sistema cubre numerosas áreas profesionales reguladas.</p></div>
+</div>
+<div class="source">Fuente oficial: <strong>BIBB – Bundesinstitut für Berufsbildung</strong>. El sistema dual se desarrolla en empresa y escuela profesional. <a href="https://www.bibb.de/dokumente/pdf/2018_CR_DE.pdf" target="_blank">BIBB – Vocational Education</a>.</div>
+</div>
+</section>
+
+<section class="slide">
+<div class="content">
+<div class="kicker">07 · Investigación aplicada</div>
+<h2>Fraunhofer muestra que investigación e industria pueden estar conectadas</h2>
+<div class="grid3">
+<div class="card"><div class="stat" style="font-size:3.5rem">74</div><h3>institutos y unidades</h3></div>
+<div class="card"><div class="stat" style="font-size:3.5rem">30.000+</div><h3>trabajadores</h3></div>
+<div class="card"><div class="stat gold" style="font-size:3.5rem">€3,6 B</div><h3>volumen anual</h3></div>
+</div>
+<div class="card" style="margin-top:18px">
+<p class="quote">Ciencia → investigación aplicada → industria → innovación → valor económico</p>
+</div>
+<div class="source">Fuente institucional: <strong>Fraunhofer-Gesellschaft</strong>. Información institucional sobre su red de institutos, personal y volumen de investigación. <a href="https://www.fraunhofer.de/en/about-fraunhofer.html" target="_blank">Fraunhofer – About</a>.</div>
+</div>
+</section>
+
+<section class="slide">
+<div class="content">
+<div class="kicker">08 · La propuesta peruana</div>
+<h2>Dos rutas. Un mismo objetivo: movilidad productiva.</h2>
+<div class="grid">
+<div class="card">
+<span class="badge">RUTA 1 · INSERCIÓN LABORAL</span>
+<div class="flow">
+<span class="node">Secundaria</span><span class="arrow">→</span>
+<span class="node">Orientación</span><span class="arrow">→</span>
+<span class="node">Formación técnica</span><span class="arrow">→</span>
+<span class="node">Práctica</span><span class="arrow">→</span>
+<span class="node accent">Empleo formal</span>
+</div>
+<p>Prioridad: carreras y perfiles donde la experiencia práctica acelera la inserción laboral.</p>
+</div>
+<div class="card">
+<span class="badge">RUTA 2 · CIENCIA Y TECNOLOGÍA</span>
+<div class="flow">
+<span class="node">Universidad</span><span class="arrow">→</span>
+<span class="node">Investigación</span><span class="arrow">→</span>
+<span class="node">Prototipo</span><span class="arrow">→</span>
+<span class="node">Empresa</span><span class="arrow">→</span>
+<span class="node gold">Producción</span>
+</div>
+<p>Prioridad: electrónica, IA, materiales, energía, robótica, telecomunicaciones, biotecnología y otros sectores estratégicos.</p>
+</div>
+</div>
+<div class="source">Arquitectura propuesta en el documento adjunto. fileciteturn0file0L396-L414</div>
+</div>
+</section>
+
+<section class="slide">
+<div class="content">
+<div class="kicker">09 · Financiamiento</div>
+<h2>El Estado no debería pagar solamente por capacitar</h2>
+<table class="table">
+<thead><tr><th>Etapa</th><th>Estado</th><th>Empresa</th><th>Resultado esperado</th></tr></thead>
+<tbody>
+<tr><td>Formación</td><td>Alto</td><td>Bajo</td><td>Competencias</td></tr>
+<tr><td>Investigación aplicada</td><td>Alto</td><td>Medio</td><td>Conocimiento útil</td></tr>
+<tr><td>Prototipo</td><td>Medio/alto</td><td>Medio</td><td>Producto probado</td></tr>
+<tr><td>Validación</td><td>Medio</td><td>Alto</td><td>Demostración industrial</td></tr>
+<tr><td>Escalamiento</td><td>Medio</td><td>Alto</td><td>Capacidad productiva</td></tr>
+<tr><td>Producción</td><td>Bajo</td><td>Muy alto</td><td>Mercado</td></tr>
+</tbody>
+</table>
+<div class="callout"><strong>Principio:</strong> el subsidio público debe aumentar la probabilidad de resultados verificables y reducir progresivamente el riesgo que asume el sector privado.</div>
+<div class="source">Arquitectura de financiamiento propuesta en el documento adjunto. fileciteturn0file0L222-L229</div>
+</div>
+</section>
+
+<section class="slide">
+<div class="content">
+<div class="kicker">10 · Perú ya tiene instrumentos</div>
+<h2>La discusión no es “si existe apoyo”, sino su escala y conexión.</h2>
+<div class="grid">
+<div class="card">
+<h3>Investigación aplicada</h3>
+<div class="stat gold" style="font-size:3.5rem">S/397.500</div>
+<p>El documento cita una convocatoria histórica con recursos no reembolsables de hasta ese monto por proyecto.</p>
+</div>
+<div class="card">
+<h3>Innovación abierta</h3>
+<div class="stat" style="font-size:3.5rem">S/1,6 M+</div>
+<p>ProInnóvate muestra actualmente concursos con cofinanciamiento de hasta S/1,6 millones para desafíos de gran impacto.</p>
+</div>
+</div>
+<div class="callout">La pregunta de política pública pasa a ser: ¿cómo conectar financiamiento, universidades, empresas, prototipos, escalamiento y empleo?</div>
+<div class="source">Fuentes oficiales: <strong>ProInnóvate</strong>. Las convocatorias institucionales muestran instrumentos de cofinanciamiento; por ejemplo, Desafíos Sectoriales de Gran Impacto contempla hasta S/ 1,6 millones. <a href="https://cambioclimatico.proinnovate.gob.pe/concurso/desafios-sectoriales-de-gran-impacto/" target="_blank">Convocatoria oficial</a> · <a href="https://cambioclimatico.proinnovate.gob.pe/concursos/" target="_blank">Concursos ProInnóvate</a>.</div>
+</div>
+</section>
+
+<section class="slide">
+<div class="content">
+<div class="kicker">11 · Indicadores</div>
+<h2>Medir resultados, no solamente actividades</h2>
+<div class="grid3">
+<div class="card"><h3>Inserción</h3><ul><li>Jóvenes capacitados</li><li>Horas prácticas</li><li>Certificaciones</li><li>Empleo formal</li></ul></div>
+<div class="card"><h3>Calidad</h3><ul><li>Permanencia laboral</li><li>Ingresos</li><li>Competencias adquiridas</li><li>Transición educación–empleo</li></ul></div>
+<div class="card"><h3>Innovación</h3><ul><li>Prototipos</li><li>Tecnologías transferidas</li><li>Empresas creadas</li><li>Empleo especializado</li></ul></div>
+</div>
+<p class="quote" style="margin-top:28px">Cada sol público debería poder relacionarse con resultados observables.</p>
+<div class="source">Indicadores propuestos en el documento adjunto. fileciteturn0file0L443-L452</div>
+</div>
+</section>
+
+<section class="slide">
+<div class="content">
+<div class="kicker">12 · Primeros 100 días</div>
+<h2>Una agenda mínima y ejecutable</h2>
+<div class="timeline">
+<div class="year"><strong>01</strong><p>Crear un Sistema Nacional de Transición Escuela–Trabajo.</p></div>
+<div class="year"><strong>02</strong><p>Programa de Aprendizaje Laboral Juvenil: empresa + instituto + remuneración + certificación.</p></div>
+<div class="year"><strong>03</strong><p>Subsidio por inserción y resultados, no solamente por capacitación.</p></div>
+<div class="year"><strong>04</strong><p>Fondo Nacional de Investigación Aplicada Estratégica.</p></div>
+</div>
+<div class="card" style="margin-top:18px"><strong style="font-size:1.2rem">05 · Centros de Investigación Aplicada Empresa–Universidad</strong><p>Financiar la primera etapa y exigir una cadena: prototipo → validación → producción → empleo.</p></div>
+<div class="source">Las cinco medidas están planteadas en el documento adjunto. fileciteturn0file0L457-L481</div>
+</div>
+</section>
+
+<section class="slide">
+<div class="content">
+<div class="kicker">Cierre</div>
+<p class="quote">“El joven peruano no necesita solamente capacitación.<br><span style="color:var(--accent)">Necesita una ruta.</span>”</p>
+<div class="flow" style="margin:38px 0">
+<span class="node">Colegio</span><span class="arrow">→</span><span class="node">Formación</span><span class="arrow">→</span><span class="node">Experiencia</span><span class="arrow">→</span><span class="node">Certificación</span><span class="arrow">→</span><span class="node accent">Empleo</span>
+</div>
+<div class="flow">
+<span class="node">Universidad</span><span class="arrow">→</span><span class="node">Investigación</span><span class="arrow">→</span><span class="node gold">Tecnología</span><span class="arrow">→</span><span class="node">Empresa</span><span class="arrow">→</span><span class="node accent">Producción</span>
+</div>
+<div class="source">Cierre basado en el documento adjunto. fileciteturn0file0L482-L489</div>
+</div>
+</section>
+
+<section class="slide">
+<div class="content">
+<div class="kicker">Fuentes y notas metodológicas</div>
+<h2>Fuentes principales</h2>
+<div class="grid">
+<div class="card">
+<h3>Perú</h3>
+<p><a href="https://www.inei.gob.pe/" target="_blank">INEI</a> — Encuesta Permanente de Empleo Nacional (EPEN) e indicadores oficiales de empleo.</p>
+<p><a href="https://www.proinnovate.gob.pe/" target="_blank">ProInnóvate</a> — instrumentos de innovación y cofinanciamiento.</p>
+<p>Congreso de la República / información citada en el documento base sobre egresados de 5.º de secundaria.</p>
+</div>
+<div class="card">
+<h3>Referencias internacionales</h3>
+<p><a href="https://www.bibb.de/en/77203.php" target="_blank">BIBB</a> — sistema alemán de formación dual.</p>
+<p><a href="https://www.fraunhofer.de/en/about-fraunhofer.html" target="_blank">Fraunhofer-Gesellschaft</a> — investigación aplicada y transferencia a industria.</p>
+<p><a href="https://www.oecd.org/" target="_blank">OECD</a> — revisión de política de innovación de China.</p>
+</div>
+</div>
+<div class="callout"><strong>Nota importante:</strong> la cifra “45,9%” corresponde a la población específica descrita en el documento (egresados de 5.º de secundaria en 2023), no a todos los jóvenes del Perú. Por ello no debe presentarse como “50% de los jóvenes no tiene trabajo”.</div>
+<p class="small"><strong>Criterio de fuentes:</strong> los porcentajes y montos estadísticos se presentan como datos oficiales únicamente cuando cuentan con respaldo de una fuente institucional identificada; las rutas y medidas de política son propuestas de la exposición. Esta versión web separa claramente datos estadísticos de propuestas de política. Antes de una presentación pública, conviene actualizar las cifras peruanas al último boletín disponible y colocar la referencia exacta debajo de cada gráfico.</p>
+<div class="source">Documento base aportado por el usuario: “Comparar inserción laboral juvenil”. fileciteturn0file0L490-L505</div>
+</div>
+</section>
+
+</div>
+
+<div class="controls">
+<button id="prev">←</button>
+<div class="progress"><i id="progress"></i></div>
+<div class="counter" id="counter">1 / 14</div>
+<button id="next">→</button>
+<button id="print">PDF</button>
+</div>
+
+<script>
+const slides=[...document.querySelectorAll('.slide')];
+let current=0;
+const progress=document.getElementById('progress');
+const counter=document.getElementById('counter');
+function show(n){
+  current=(n+slides.length)%slides.length;
+  slides.forEach((s,i)=>s.classList.toggle('active',i===current));
+  progress.style.width=((current+1)/slides.length*100)+'%';
+  counter.textContent=(current+1)+' / '+slides.length;
+}
+document.getElementById('prev').onclick=()=>show(current-1);
+document.getElementById('next').onclick=()=>show(current+1);
+document.getElementById('print').onclick=()=>window.print();
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight'||e.key==='PageDown'||e.key===' '){e.preventDefault();show(current+1)}
+  if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();show(current-1)}
+  if(e.key==='Home'){show(0)}
+  if(e.key==='End'){show(slides.length-1)}
+});
+show(0);
+</script>
+</body>
+</html>
