@@ -77,6 +77,50 @@ button:hover{border-color:var(--accent)}
  .slide{display:block!important;position:relative;page-break-after:always;min-height:100vh;background:#07111f}
  .controls{display:none}
 }
+/* Gráfico de Barras Verticales */
+.v-chart-container {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-around;
+  height: 220px;
+  margin: 20px 0;
+  border-bottom: 2px solid var(--line);
+  padding-bottom: 10px;
+}
+.v-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+.v-bar-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  height: 180px;
+  width: 45px;
+}
+.v-bar {
+  width: 100%;
+  border-radius: 6px 6px 0 0;
+  background: var(--line);
+  transition: height 0.5s ease-out;
+}
+.v-bar.accent { background: var(--accent); }
+.v-bar.red { background: var(--danger); }
+.v-val {
+  font-size: 0.9rem;
+  font-weight: 800;
+  margin-bottom: 6px;
+  color: var(--text);
+}
+.v-label {
+  margin-top: 15px;
+  font-size: 1rem;
+  color: var(--muted);
+  font-weight: 700;
+}
 </style>
 </head>
 <body>
@@ -118,7 +162,73 @@ button:hover{border-color:var(--accent)}
 <div class="source">Fuente: <strong>documento base / Congreso de la República</strong>, dato de egresados de secundaria 2023. Se conserva la atribución del documento base; no se ha sustituido por una cifra distinta. fileciteturn0file0L292-L297</div>
 </div>
 </section>
+<section class="slide">
+<div class="content">
+<div class="kicker">Contexto Histórico · Evolución</div>
+<h2>La persistencia del desempleo tras la pandemia</h2>
+<p class="lead" style="font-size:1.1rem; margin-top:-10px;">La economía absorbió el choque del 2020, pero la desocupación se ha estancado por encima de los niveles prepandemia.</p>
 
+<div class="card" style="margin-top: 25px; max-width: 950px;">
+  <div class="v-chart-container">
+    <div class="v-group">
+      <div class="v-bar-wrapper">
+        <span class="v-val">3,9%</span>
+        <div class="v-bar accent" style="height: 97px;"></div>
+      </div>
+      <div class="v-label">2019</div>
+    </div>
+    
+    <div class="v-group">
+      <div class="v-bar-wrapper">
+        <span class="v-val" style="color:var(--danger)">7,4%</span>
+        <div class="v-bar red" style="height: 185px;"></div>
+      </div>
+      <div class="v-label">2020</div>
+    </div>
+    
+    <div class="v-group">
+      <div class="v-bar-wrapper">
+        <span class="v-val">5,7%</span>
+        <div class="v-bar accent" style="height: 142px;"></div>
+      </div>
+      <div class="v-label">2021</div>
+    </div>
+    
+    <div class="v-group">
+      <div class="v-bar-wrapper">
+        <span class="v-val">4,3%</span>
+        <div class="v-bar accent" style="height: 107px;"></div>
+      </div>
+      <div class="v-label">2022</div>
+    </div>
+
+    <div class="v-group">
+      <div class="v-bar-wrapper">
+        <span class="v-val">4,7%</span>
+        <div class="v-bar accent" style="height: 117px;"></div>
+      </div>
+      <div class="v-label">2023</div>
+    </div>
+
+    <div class="v-group">
+      <div class="v-bar-wrapper">
+        <span class="v-val">4,8%</span>
+        <div class="v-bar accent" style="height: 120px;"></div>
+      </div>
+      <div class="v-label">2024</div>
+    </div>
+  </div>
+  
+  <p class="small" style="text-align:center; margin-top:10px;">Tasa de Desempleo Nacional (% de la PEA)</p>
+</div>
+
+<div class="callout" style="margin-top:20px;">
+  <strong>El problema de fondo:</strong> El estancamiento reciente afecta de manera desproporcionada a los jóvenes sin experiencia, convirtiéndose en una barrera de entrada que el mercado por sí solo no está logrando resolver.
+</div>
+
+<div class="source">Fuente oficial: <strong>INEI / CEPLAN – Observatorio Nacional de Prospectiva</strong>. Evolución histórica de la tasa de desempleo (2019-2024).</div>
+</div>
+</section>
 <section class="slide">
 <div class="content">
 <div class="kicker">02 · La calidad del empleo</div>
